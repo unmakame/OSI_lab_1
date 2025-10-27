@@ -57,91 +57,56 @@ Platform (platform.cpp) предоставляет кроссплатформе�
 
 \section{Логи выполнения программы}
 
-\begin{lstlisting}[caption={Логи выполнения программы}]
-=== Parent Process Started ===
-ParentProcess constructor: pipes created
-=== Starting Parent Process ===
-Enter filename for child1: file1.txt
-Enter filename for child2: file2.txt
-Creating child process 1...
-Pipe created successfully (read: 3, write: 4)
-Starting child process 1 with file: file1.txt
-Linux: Forking child process...
-Linux: Child process created with PID: 274150
-Child process 1 started successfully
-Closed read end of pipe1 in parent
-Creating child process 2...
-Pipe created successfully (read: 5, write: 6)
-Starting child process 2 with file: file2.txt
-Linux: Forking child process...
-Linux: Child process created with PID: 274151
-Child process 2 started successfully
-Closed read end of pipe2 in parent
-Enter lines (empty line to end):
-hello
-Sending line to child 1 (length: 5): hello
-Pipe wrote 5 bytes
-Pipe wrote 1 bytes
-very long string
-Sending line to child 2 (length: 16): very long string
-Pipe wrote 16 bytes
-Pipe wrote 1 bytes
-test
-Sending line to child 1 (length: 4): test
-Pipe wrote 4 bytes
-Pipe wrote 1 bytes
-
-Total lines sent: 3
-Closing write ends of pipes...
-Linux: Closing pipe handle 4
-Linux: Closing pipe handle 6
-Waiting for child processes to finish...
-Linux: Waiting for process 274150 to finish...
-=== Child Process Started ===
-Output filename: file1.txt
-File opened successfully
-Linux: Child process executing: ./childProcess
-Linux: Duplicating fd 3 to 0
-Linux: Closing pipe handle 3
-Received line: 'hello'
-Reversing string: 'hello'
-Reversed string: 'olleh'
-Written to file: 'olleh'
-olleh
-Received line: 'test'
-Reversing string: 'test'
-Reversed string: 'tset'
-Written to file: 'tset'
-tset
-Child process finished. Processed 2 lines.
-=== Child Process Finished ===
-Linux: Process 274150 finished with status: 0
-Child process 1 finished
-Linux: Waiting for process 274151 to finish...
-=== Child Process Started ===
-Output filename: file2.txt
-File opened successfully
-Linux: Child process executing: ./childProcess
-Linux: Duplicating fd 5 to 0
-Linux: Closing pipe handle 5
-Received line: 'very long string'
-Reversing string: 'very long string'
-Reversed string: 'gnirts gnol yrev'
-Written to file: 'gnirts gnol yrev'
-gnirts gnol yrev
-Child process finished. Processed 1 lines.
-=== Child Process Finished ===
-Linux: Process 274151 finished with status: 0
-Child process 2 finished
-Parent: all children finished successfully.
-=== Parent Process Finished ===
-ParentProcess destructor: cleaning up resources
-\end{lstlisting}
-
-\section{Системные вызовы}
-
-\lstinputlisting[caption={Системные вызовы (strace)}]{strace.log}
-
-
+\begin{verbatim}
+274130 execve("./parent",["./parent"],0x7ffcd3e49d68 /* 36 vars */) = 0
+274130 brk(NULL)    = 0x63bd01b85000
+274130 mmap(NULL,8192,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS,-1,0) = 0x79c2f692d000
+274130 access("/etc/ld.so.preload",R_OK) = -1 ENOENT (No such file or directory)
+274130 openat(AT_FDCWD,"/etc/ld.so.cache",0_RDONLY|0_CLOEXEC) = 3
+274130 fstat(3,{st_mode=S_IFREG|0644,st_size=33163,...}) = 0
+274130 mmap(NULL,33163,PROT_READ,MAP_PRIVATE,3,0) = 0x79c2f6924000
+274130 close(3)    = 0
+274130 openat(AT_FDCWD,"/lib/x86_64-linux-gnu/libstdc++.so.6",0_RDONLY|0_CLOEXEC) = 3
+274130 read(3,"\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\0\0\0\0\0\0\0\0"...,832) = 832
+274130 fstat(3,{st_mode=S_IFREG|0644,st_size=2592224,...}) = 0
+274130 mmap(NULL,2609472,PROT_READ,MAP_PRIVATE|MAP_DENYWRITE,3,0) = 0x79c2f6600000
+274130 mmap(0x79c2f669d000,1343488,PROT_READ|PROT_EXEC,MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE,3,0x9d000) = 0x79c2f669d000
+274130 mmap(0x79c2f67e5000,552960,PROT_READ,MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE,3,0x1e5000) = 0x79c2f67e5000
+274130 mmap(0x79c2f686c000,57344,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE,3,0x26b000) = 0x79c2f686c000
+274130 mmap(0x79c2f687a000,12608,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS,-1,0) = 0x79c2f687a000
+274130 close(3)    = 0
+274130 pipe2([3,4],0)                 = 0
+274130 pipe2([5,6],0)                 = 0
+274130 clone(child_stack=NULL,flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD,child_tidptr=0x79c2f68f1a10) = 274150
+274130 clone(child_stack=NULL,flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD,child_tidptr=0x79c2f68f1a10) = 274151
+274130 close(3)                       = 0
+274130 close(5)                       = 0
+274150 execve("./child",["./child","output1.txt"],0x7ffd73be59b8 /* 36 vars */) = 0
+274151 execve("./child",["./child","output2.txt"],0x7ffd73be59b8 /* 36 vars */) = 0
+274130 read(0,"hello world\n",1024)   = 12
+274130 write(4,"hello world",11)      = 11
+274130 write(4,"\n",1)                = 1
+274150 read(3,"hello world",255)      = 11
+274130 read(0,"short\n",1024)         = 6
+274130 write(4,"short",5)             = 5
+274130 write(4,"\n",1)                = 1
+274150 read(3,"short",255)            = 5
+274130 read(0,"this is very long string\n",1024) = 24
+274130 write(6,"this is very long string",23) = 23
+274130 write(6,"\n",1)                = 1
+274151 read(5,"this is very long string",255) = 23
+274130 read(0,"test\n",1024)          = 5
+274130 write(4,"test",4)              = 4
+274130 write(4,"\n",1)                = 1
+274150 read(3,"test",255)             = 4
+274130 read(0,"\n",1024)              = 1
+274130 close(4)                       = 0
+274130 close(6)                       = 0
+274130 wait4(274150,NULL,0,NULL)      = 274150
+274130 wait4(274151,NULL,0,NULL)      = 274151
+274130 exit_group(0)                  = ?
+274150 exit_group(0)                  = ?
+274151 exit_group(0)                  = ?
+\end{verbatim}
 
 Программа демонстрирует корректную работу механизма межпроцессного взаимодействия через именованные каналы и правильное распределение строк между процессами согласно варианту 17.

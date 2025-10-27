@@ -6,4 +6,3 @@
 \contentsline {subsection}{\numberline {4.1}Основные модули}{4}{subsection.4.1}%
 \contentsline {subsection}{\numberline {4.2}Вспомогательные модули}{10}{subsection.4.2}%
 \contentsline {section}{\numberline {5}Логи выполнения программы}{14}{section.5}%
-\contentsline {section}{\numberline {6}Системные вызовы}{16}{section.6}%
