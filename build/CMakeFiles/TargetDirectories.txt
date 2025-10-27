@@ -1,0 +1,4 @@
+/Users/vladislavbaanov/Desktop/OSI/build/CMakeFiles/parentProcess.dir
+/Users/vladislavbaanov/Desktop/OSI/build/CMakeFiles/childProcess.dir
+/Users/vladislavbaanov/Desktop/OSI/build/CMakeFiles/edit_cache.dir
+/Users/vladislavbaanov/Desktop/OSI/build/CMakeFiles/rebuild_cache.dir
