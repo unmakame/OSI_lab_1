@@ -5,11 +5,11 @@
 int main() {
     std::string filename1, filename2;
     
-    // Первая строка - имя файла для child1
+    
     std::cout << "Enter filename for child1: ";
     std::getline(std::cin, filename1);
     
-    // Вторая строка - имя файла для child2  
+     
     std::cout << "Enter filename for child2: ";
     std::getline(std::cin, filename2);
     

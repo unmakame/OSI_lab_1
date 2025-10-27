@@ -15,7 +15,7 @@ bool ParentProcess::createChildProcess(const std::string& executable, const std:
     si.cb = sizeof(si);
     ZeroMemory(&pi, sizeof(pi));
     
-    // Настраиваем перенаправление stdin из соответствующего pipe
+    
     si.hStdInput = (HANDLE)_get_osfhandle(inputPipe.getReadFD());
     si.hStdOutput = GetStdHandle(STD_OUTPUT_HANDLE);
     si.hStdError = GetStdHandle(STD_ERROR_HANDLE);
@@ -46,10 +46,9 @@ bool ParentProcess::createChildProcess(const std::string& executable, const std:
     pid_t pid = fork();
     
     if (pid == 0) {
-        // Дочерний процесс - настраиваем перенаправление stdin из pipe
         dup2(inputPipe.getReadFD(), STDIN_FILENO);
         
-        // Закрываем все ненужные дескрипторы пайпов в дочернем процессе
+        
         pipe1.closeReadEnd();
         pipe1.closeWriteEnd();
         pipe2.closeReadEnd();
@@ -74,15 +73,15 @@ bool ParentProcess::initializePipes() {
 }
 
 bool ParentProcess::createChildProcesses() {
-    // Создаем процесс child1 для коротких строк (pipe1)
+    
     bool success1 = createChildProcess("./childProcess", filename1, "1", pipe1);
     Platform::sleep(100);
     
-    // Создаем процесс child2 для длинных строк (pipe2)  
+    
     bool success2 = createChildProcess("./childProcess", filename2, "2", pipe2);
     Platform::sleep(100);
     
-    // Закрываем read ends в родительском процессе (они используются детьми)
+    
     pipe1.closeReadEnd();
     pipe2.closeReadEnd();
     
@@ -101,7 +100,6 @@ void ParentProcess::run() {
             break;
         }
 
-        // Фильтрация по длине строки согласно варианту 17
         if (StringProcessor::shouldGoToPipe2(input)) {
             std::cout << "Routing to PIPE2 (long string >10): " << input << std::endl;
             if (!pipe2.writeToPipe(input)) {
@@ -115,7 +113,7 @@ void ParentProcess::run() {
         }
     }
 
-    // Закрываем write ends чтобы сигнализировать детям о завершении
+    
     pipe1.closeWriteEnd();
     pipe2.closeWriteEnd();
     

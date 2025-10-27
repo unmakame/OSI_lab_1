@@ -18,8 +18,8 @@
 
 class ParentProcess {
 private:
-    PipeManager pipe1; // Для коротких строк (≤10 символов)
-    PipeManager pipe2; // Для длинных строк (>10 символов)
+    PipeManager pipe1; 
+    PipeManager pipe2; 
     std::string filename1, filename2;
     
 #ifdef WINDOWS_PLATFORM

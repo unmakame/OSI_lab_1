@@ -27,3 +27,121 @@ Linux: pipe, fork, execl, read, write\\
 Platform (platform.cpp) предоставляет кроссплатформенные функции для работы с процессами и временными задержками.\\
 
 Дочерние процессы (childProcess.cpp) являются отдельными исполняемыми файлами, которые получают строки через стандартный ввод, обрабатывают их и выводят результаты в стандартный вывод, соответствуя требованию условия.
+\section{Исходный код}
+
+\subsection{Основные модули}
+
+\textbf{main.cpp} - точка входа программы:
+\lstinputlisting[language=C++,caption={main.cpp}]{../../src/main.cpp}
+
+\textbf{parentProcess.cpp} - родительский процесс:
+\lstinputlisting[language=C++,caption={parentProcess.cpp}]{../../src/parentProcess.cpp}
+
+\textbf{parentProcessImplementation.cpp} - реализация родительского процесса:
+\lstinputlisting[language=C++,caption={parentProcessImplementation.cpp}]{../../src/parentProcessImplementation.cpp}
+
+\textbf{childProcess.cpp} - дочерний процесс:
+\lstinputlisting[language=C++,caption={childProcess.cpp}]{../../src/childProcess.cpp}
+
+\subsection{Вспомогательные модули}
+
+\textbf{pipeManager.cpp} - управление каналами:
+\lstinputlisting[language=C++,caption={pipeManager.cpp}]{../../src/pipeManager.cpp}
+
+\textbf{stringProcessor.cpp} - обработка строк:
+\lstinputlisting[language=C++,caption={stringProcessor.cpp}]{../../src/stringProcessor.cpp}
+
+\textbf{platform.cpp} - кроссплатформенные функции:
+\lstinputlisting[language=C++,caption={platform.cpp}]{../../src/platform.cpp}
+
+
+\section{Логи выполнения программы}
+
+\begin{lstlisting}[caption={Логи выполнения программы}]
+=== Parent Process Started ===
+ParentProcess constructor: pipes created
+=== Starting Parent Process ===
+Enter filename for child1: file1.txt
+Enter filename for child2: file2.txt
+Creating child process 1...
+Pipe created successfully (read: 3, write: 4)
+Starting child process 1 with file: file1.txt
+Linux: Forking child process...
+Linux: Child process created with PID: 274150
+Child process 1 started successfully
+Closed read end of pipe1 in parent
+Creating child process 2...
+Pipe created successfully (read: 5, write: 6)
+Starting child process 2 with file: file2.txt
+Linux: Forking child process...
+Linux: Child process created with PID: 274151
+Child process 2 started successfully
+Closed read end of pipe2 in parent
+Enter lines (empty line to end):
+hello
+Sending line to child 1 (length: 5): hello
+Pipe wrote 5 bytes
+Pipe wrote 1 bytes
+very long string
+Sending line to child 2 (length: 16): very long string
+Pipe wrote 16 bytes
+Pipe wrote 1 bytes
+test
+Sending line to child 1 (length: 4): test
+Pipe wrote 4 bytes
+Pipe wrote 1 bytes
+
+Total lines sent: 3
+Closing write ends of pipes...
+Linux: Closing pipe handle 4
+Linux: Closing pipe handle 6
+Waiting for child processes to finish...
+Linux: Waiting for process 274150 to finish...
+=== Child Process Started ===
+Output filename: file1.txt
+File opened successfully
+Linux: Child process executing: ./childProcess
+Linux: Duplicating fd 3 to 0
+Linux: Closing pipe handle 3
+Received line: 'hello'
+Reversing string: 'hello'
+Reversed string: 'olleh'
+Written to file: 'olleh'
+olleh
+Received line: 'test'
+Reversing string: 'test'
+Reversed string: 'tset'
+Written to file: 'tset'
+tset
+Child process finished. Processed 2 lines.
+=== Child Process Finished ===
+Linux: Process 274150 finished with status: 0
+Child process 1 finished
+Linux: Waiting for process 274151 to finish...
+=== Child Process Started ===
+Output filename: file2.txt
+File opened successfully
+Linux: Child process executing: ./childProcess
+Linux: Duplicating fd 5 to 0
+Linux: Closing pipe handle 5
+Received line: 'very long string'
+Reversing string: 'very long string'
+Reversed string: 'gnirts gnol yrev'
+Written to file: 'gnirts gnol yrev'
+gnirts gnol yrev
+Child process finished. Processed 1 lines.
+=== Child Process Finished ===
+Linux: Process 274151 finished with status: 0
+Child process 2 finished
+Parent: all children finished successfully.
+=== Parent Process Finished ===
+ParentProcess destructor: cleaning up resources
+\end{lstlisting}
+
+\section{Системные вызовы}
+
+\lstinputlisting[caption={Системные вызовы (strace)}]{strace.log}
+
+
+
+Программа демонстрирует корректную работу механизма межпроцессного взаимодействия через именованные каналы и правильное распределение строк между процессами согласно варианту 17.
