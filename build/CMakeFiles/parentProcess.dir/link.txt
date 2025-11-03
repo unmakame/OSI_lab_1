@@ -1,1 +1,0 @@
-/usr/bin/c++  -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/parentProcess.dir/src/main.cpp.o CMakeFiles/parentProcess.dir/src/parentProcessImplementation.cpp.o CMakeFiles/parentProcess.dir/src/pipeManager.cpp.o CMakeFiles/parentProcess.dir/src/stringProcessor.cpp.o CMakeFiles/parentProcess.dir/src/platform.cpp.o -o parentProcess
