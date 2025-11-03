@@ -1,8 +1,0 @@
-\xpg@aux {}{russian}
-\contentsline {section}{\numberline {1}Условие}{2}{section.1}%
-\contentsline {section}{\numberline {2}Метод решения}{3}{section.2}%
-\contentsline {section}{\numberline {3}Описание программы}{3}{section.3}%
-\contentsline {section}{\numberline {4}Исходный код}{4}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Основные модули}{4}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Вспомогательные модули}{10}{subsection.4.2}%
-\contentsline {section}{\numberline {5}Логи выполнения программы}{14}{section.5}%
