@@ -26,7 +26,7 @@ Makefile
 *.fls
 *.bbl
 *.blg
-
+*.LaTeX
 # Compiled binaries
 *.exe
 *.out
@@ -35,3 +35,4 @@ Makefile
 # OS generated
 .DS_Store
 Thumbs.db
+report/
